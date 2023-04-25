@@ -1,0 +1,36 @@
+Normal java projects
+
+Step 1: Create a repository in git hub and add a file
+Step 2: Create an item in jenkins and give a description
+Step 3: Choose JDK version
+Step 4:Repo URL and choose branch specifier(!master)
+Step 5: build steps and give executable commands [javac HelloWorld.java ,java HelloWorld]
+Step 6: Save and build now 
+
+___________________________________________________________________
+
+Dashboard > Manage Jenkins > tools
+
+Maven Configuration
+Maven => name-MVN3
+MAVEN_HOME => C:\Java\Java PPT\Maven\apache-maven-3.8.6-bin\apache-maven-3.8.6
+
+Save
+
+__________________________________________________________________
+
+maven project
+
+name 
+choose maven project
+Step 2: Create an item in jenkins and give a description
+Step 3: Choose JDK version
+Step 4:Repo URL and choose branch specifier(!master)
+step 5: pre steps- Invoke top-level Maven targets and specifythe goals
+step 6:Build -specifythe goals(clean compile)
+Step 7 Save and build now 
+
+
+
+
+ 
