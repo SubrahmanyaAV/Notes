@@ -1,0 +1,141 @@
+HOW TO INSTALL APACHE TOMACAT 8.5 ON UBUNTU.....PUTTY TERMINAL >>>>>>>>>>
+
+_____________
+
+sudo apt-get install java-1.8.0-jdk
+
+-------or--------
+
+sudo apt-get install openjdk-8-jdk
+
+
+version --1.8.0_362
+
+____________________
+
+java -version
+
+
+_________________
+
+tomcat 10
+
+wget https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.8/bin/apache-tomcat-10.0.8.tar.gz
+
+______________________________________
+
+tomcat 8
+
+wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz
+
+sudo tar xzvf apache-tomcat-8.5.30.tar.gz
+
+sudo mkdir /opt/tomcat/
+
+sudo mv apache-tomcat-8.5.30/* /opt/tomcat/
+
+sudo chown -R www-data:www-data /opt/tomcat/
+
+sudo chmod -R 755 /opt/tomcat/
+
+sudo nano /opt/tomcat/conf/tomcat-users.xml
+
+-----------------------------
+<!-- user manager can access only manager section -->
+
+<role rolename="manager-gui" />
+
+<user username="manager" password="manager" roles="manager-gui" />
+
+
+
+<!-- user admin can access manager and admin section both -->
+
+
+<role rolename="admin-gui" />
+
+<user username="admin" password="admin" roles="manager-gui,admin-gui" />
+
+
+--------------------
+sudo nano /opt/tomcat/webapps/manager/META-INF/context.xml
+
+//comment the below lines
+<!-- <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+
+---------------
+sudo nano /opt/tomcat/webapps/host-manager/META-INF/context.xml
+
+//comment the below lines
+
+<!--<Valve className="org.apache.catalina.valves.RemoteAddrValve"
+
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+
+--------------------
+
+sudo nano /etc/systemd/system/tomcat.service
+
+----------------------------
+[Unit]
+
+Description=Tomcat
+
+After=network.target
+
+
+[Service]
+
+Type=forking
+
+
+
+User=root
+
+Group=root
+
+
+
+Environment="JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+
+Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom"
+
+Environment="CATALINA_BASE=/opt/tomcat"
+
+Environment="CATALINA_HOME=/opt/tomcat"
+
+Environment="CATALINA_PID=/opt/tomcat/temp/tomcat.pid"
+
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+
+
+ExecStart=/opt/tomcat/bin/startup.sh
+
+ExecStop=/opt/tomcat/bin/shutdown.sh
+
+
+
+[Install]
+
+WantedBy=multi-user.target
+
+----------------------
+
+sudo systemctl daemon-reload
+
+sudo systemctl start tomcat
+
+
+//make sure 8080 port is allowed if not
+
+sudo ufw allow 8080
+
+
+
+
+
+
+

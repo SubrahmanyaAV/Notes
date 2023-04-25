@@ -1,0 +1,23 @@
+git remote add origin https://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
+@github.com/SubrahmanyaAV/PizzaOrderingSystem.git
+
+gitdemo -> repository name
+
+
+
+
+token ->    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
+
+https://github.com/GaganPrakash25/gitdemo2.git
+
+git remote set-url origin https://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@github.com/SubrahmanyaAV/gitdemo.git
+
+
+
+
+
+git remote add origin https://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@github.com/SubrahmanyaAV/PizzaOrderingSystem.git
+
+
+
+git remote add origin https://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@github.com/SubrahmanyaAV/pos.git
