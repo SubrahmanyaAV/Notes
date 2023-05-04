@@ -1,0 +1,391 @@
+Jenkins Configuration
+
+Go to the official jenkins Website and download LTS latest Version 
+
+then Configure the Installation 
+
+____________________________________________________________________
+
+To build Normal java projects
+
+Step 1: Create a repository in git hub and add a file
+Step 2: Create an item in jenkins and give a description
+Step 3: Choose JDK version
+Step 4: Repo URL and choose branch specifier(!master)
+Step 5: build steps and give executable commands [javac HelloWorld.java ,java HelloWorld]
+Step 6: Save and build now 
+
+___________________________________________________________________
+
+Dashboard > Manage Jenkins > tools
+
+if not installed
+Install Maven Integration Plugin 
+
+Maven Configuration
+Maven => name-MVN3
+MAVEN_HOME => C:\Java\Java PPT\Maven\apache-maven-3.8.6-bin\apache-maven-3.8.6
+
+Save
+
+__________________________________________________________________
+
+To build Maven project
+
+Step 1:name choose maven project
+Step 2: Create an item in jenkins and give a description
+Step 3: Choose JDK version
+Step 4:Repo URL and choose branch specifier(!master)
+step 5: pre steps- Invoke top-level Maven targets and specifythe goals
+step 6:Build -specifythe goals(clean compile)
+Step 7 Save and build now 
+
+
+___________________________________________________________________
+
+Email Notifications 
+
+Step 1: Install Email extention Plugin
+
+Step 2: to Configure Email Notifications
+
+	  go to Dashboard > Manage Jenkins > System >
+
+Step 3: Extended E-mail Notification
+
+	  SMTP server ==> smtp.gmail.com
+
+	  SMTP Port ==> 25
+
+
+step 4: E-mail Notification
+
+	  SMTP server ==>  smtp.gmail.com
+
+	  Default user e-mail suffix ?  ==> @gmail.com
+
+
+Step 5: Select Advanced in E-mail Notification
+
+	  Use SMTP Authentication? ==> check the box
+
+ 	  User Name ==> abcd@gmail.com
+
+ 	  Password ==> to get the password 
+
+Google account > Manage Google Account > Security > 2 step verification (should be ON) > 
+App Passwords > Select App > choose Mail > Select Device (your device) > Generate
+
+	 for Password ==> enter the generated password
+
+ 	 Use SSL ? ==> check the box 
+
+  	 Use TLS ==> leave it as it is dont check the box
+
+	 SMTP Port ?  ==> 465
+
+	 Reply-To Address ===> give your email address
+
+ 	 charset ==> UTF-8
+
+Step 5: to check email 
+
+	 Test configuration by sending test e-mail ==> check the box
+ 	 Test e-mail recipient ==>  abcd@gmail.com
+
+ 	 Test Configuration
+
+SAVE
+
+Step 6: Create job and Configure git and jdk
+
+	  in Post build Actions
+
+	  E-mail Notification ?
+
+	  Recipients ==> udmn07@gmail.com
+
+	  Send e-mail for every unstable build ? ==> check the box 
+
+SAVE
+
+________________________________________________________________
+
+Warnings Next Generation Plugin (Previously known as PMD ==> Programming mistake detector)
+
+Stage 1: PMD ==> unneccessary imports , variables (if code is not used it will show in this PMD)
+
+Step 1: Warnings Next Generation Plugin
+
+
+Step 2: add the below code in pom.xml(GitHub Pom.xml file)
+
+<reporting>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>3.7</version>
+            <configuration>
+               <rulesets>
+                  <ruleset>/rulesets/basic.xml</ruleset>
+               </rulesets>
+            </configuration>
+        </plugin>
+    </plugins>
+</reporting>  
+
+
+
+Step 3: Post-build steps 
+	  Maven Version ==> MVN3 if not add the version(go to Dashboard > Manage Jenkins > Tools)
+		  Goals ==> test pmd:pmd
+
+Add Tool ==> select PMD from the dropdown
+
+
+
+
+Stage 2: CheckStyle ==> should be in order
+
+	<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.17</version>
+          <reportSets>
+            <reportSet>
+             <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+     	</plugin>
+
+
+ Post-build steps 
+	  Maven Version ==> MVN3 if not add the version(go to Dashboard > Manage Jenkins > Tools )
+		  Goals ==> test checkstyle:checkstyle
+
+Add Tool ==> select checkstyle from the dropdown
+
+
+Stage 3: FindBugs ==> this will find the bugs in our code
+
+private final String msg = "Hello RCB";  //add this code FindBugs 
+
+	<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-FindBugs-plugin</artifactId>
+          <version>2.17</version>
+          <reportSets>
+            <reportSet>
+             <reports>
+                <report>FindBugs</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+      </plugin>
+
+Step 3: Post-build steps 
+	  Maven Version ==> MVN3 if not add the version(go to Dashboard > Manage Jenkins > Tools)
+		  Goals ==> test findbugs:findbugs
+
+Add Tool ==> select findbugs from the dropdown
+
+---------------------------------------------------------
+all in one(pmd,checkstyle,findbugs) for pom.xml
+
+
+<reporting>
+    <plugins>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>3.7</version>
+            <configuration>
+               <rulesets>
+                  <ruleset>/rulesets/basic.xml</ruleset>
+               </rulesets>
+            </configuration>
+        </plugin>
+
+	<plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.17</version>
+          <reportSets>
+            <reportSet>
+             <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+     	</plugin>
+
+	<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-FindBugs-plugin</artifactId>
+          <version>2.17</version>
+          <reportSets>
+            <reportSet>
+             <reports>
+                <report>FindBugs</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+      </plugin>
+
+    </plugins>
+</reporting>  
+
+
+Step 3: Post-build steps 
+	  Maven Version ==> MVN3 if not add the version(go to Dashboard > Manage Jenkins > Tools)
+		  Goals ==> test pmd:pmd checkstyle:checkstyle findbugs:findbugs
+
+Add 3 Tools ==> select PMD,checkstyle,findbugs from the dropdown
+
+__________________________________________________________________
+
+Passing Parameter 
+
+step 1: create a new item and name it ==> PassingParamJob 
+
+step 2: select This project is parameterized ?
+	  Name ==> Branch 
+	  Choices ==> main , rfe , integration
+
+Step 3: select jdk and git then add the URL
+
+step 4: Build Steps
+	  Execute Windows with batch command ?
+
+SAVE
+
+Step 5: Build with Parameter
+	  Select the branch > build
+
+
+
+
+_____________________________________________________________________
+
+Deploy projects 
+
+Step 1:install Apache tomcat in jenkins plugin
+
+Step 2:configure tomcat to listen to port 8081 or any other port to avoid conflict with jenkins
+
+step 3:switch to tomcat configuration directory(conf) and open server.xml file
+edit the file and change the port no. from 8080 to 8081 then restart tomcat (service.msc)
+
+eg:- 
+
+<Connector port="8081" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+
+---------------------------------------------
+step 4:switch to tomcat-users.xml make an entry for user with the role as manager-script
+eg : - 
+
+<user username="subbu" password="subbu" roles="manager-script"/> 
+
+----------------------------------------
+
+Step 5: Go to manage jenkins > Manage Plugins > search the deploy to container plugin and install it
+
+Step 6: Push the desired code to git repo 
+
+Step 7: Create a FreeStyle project and Specify the git repo URL 
+
+Step 8: Add Build Step ==> choose either Execute windows batch command/ invoke top level maven targets (for Maven Project) > Specify Goals = package
+
+Step 9: Add Post build action - Choose Deploy .war/ear to a container
+
+
+WAR/EAR files ?  ==> **/*.war
+
+Context path ? ==> Spring-examples(git repo name)
+Containers
+
+Credentials ==> subbu/****** (Create credentials in manage jenkins)
+
+Tomcat URL ? ==> http://localhost:8081/
+
+SAVE
+
+Step 10: check whether the tomcat Service is running or not ,if not start the service 
+
+Step 11: Click on build now to deploy
+
+____________________________________________________________________________________________
+
+
+Jenkins CI ==> Continuous Integration 
+
+Step 1: Download and install ngrok ,signup 
+
+step 2: Create a ngrok folder and move the downloaded path to the folder
+
+Step 3: Open cmd in the ngrok folder and Run the command ==> ngrok http 8080 and then you can see localhost 8080 is available as public IP. 
+(this URL is important to configure GitHub webhook)
+
+Step 4: Create a FreeStyle Project in jenkins and select Configure 
+Build Triggers ==> check the option ==> GitHub hook trigger for GITScm polling
+
+Step 5: Configure GitHub Webhook 
+go to the GitHub repo Settings > webhook > Add webhook > Payload URL ==> 
+copy the ngrok Public IP and dont forget to add (/github-webhook/) at the end of the URL (for eg :- https://9b15-2409-4071-4d99-983f-4135-ecfc-9709-1048.in.ngrok.io/github-webhook/)
+> check the option ==>Just the push event.
+
+Step 6 : Follow the above steps for deployment
+
+Step 7:  Make any changes in the Source Code and Push that to git repo.This will automatically trigger GitHub to Jenkins.(check the Console for the Output) 
+
+______________________________________________________________________________________________
+
+Master Slave Configuration
+
+Step 1: Manage Jenkins > Configure global security > 
+
+Step 2: Agents ==> TCP port for inbound agents ==> choose random and then Save
+
+Step 3: Manage Jenkins > Manage Nodes and Clouds ==> Create a new Node , Name ==> Provide any name , Choose Permanent Agent then Create  
+
+Name ? == > nodedemo
+Description ? ==> master slave
+
+Number of executors ? ==>1
+
+Remote root directory ? ==> C:\JenkinsNode (Create a folder in local path and Give that path here in Remote root directory)
+
+Labels ? ==> nodedemo
+
+Usage? ==> Only build jobs with label expressions matching this node
+
+Launch method ? ==> Launch agent by connecting it to the controller
+
+SAVE
+
+Step 4: click on the .jar file to download and move thw downloaded file to folder(JenkinsNode)
+
+step 5: Open cmd in that folder and run the command (for eg: - curl.exe -sO http://localhost:8080/jnlpJars/agent.jar
+java -jar agent.jar -jnlpUrl http://localhost:8080/computer/nodedemo/jenkins-agent.jnlp -secret e126bd9e908cb9f780623ead2b8e6b9f42712067cd321480fb202b03c41ca6cb  ) 
+
+
+Step 4: Create FreeStyle Project and configure the step
+
+step 5 : check the Restrict the project where it can be run ==> select the label( write the label name)
+
+
+________________________________________________________________________________________________________
+
+Security
+
+
+
+
+
+
