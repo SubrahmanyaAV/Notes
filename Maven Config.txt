@@ -7,8 +7,20 @@
 3. path ==> C:\Java\Java PPT\Maven\apachemaven\bin
 
 
-mvn archetype:general ......................................
+create a folder and then create a folder 
+
+open cmd in that folder
+
+mvn archetype:general ...................................... //google search 
+
+{  mvn archetype:generate -DgroupId=com.cruds –DartifactId=demoproj -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false  }
+
+change the groupId name and project name(demoproj) 
 
 mvn compile
 
-mvn package
+mvn package ==> to get war/jar files 
+
+mvn eclipse:eclipse 
+
+then open eclipse and import the project 
