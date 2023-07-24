@@ -1,0 +1,34 @@
+1. Get all employees
+
+  http://localhost:8080/employees
+
+2. Create an employee -POST
+
+  http://localhost:8080/employees
+
+3. Get employee By Id
+
+  http://localhost:8080/employees/1
+
+4. To update employee salary 
+
+  http://localhost:8080/employees/1/salary?newSalary=60000.0
+
+5. To delete an employee
+
+http://localhost:8080/employees/2
+
+6. to get department
+
+http://localhost:8080/employees/department/Dev
+
+7. to search firstName 
+
+http://localhost:8080/employees/firstName/Subrahmanya
+
+8. to search firstName and department
+
+http://localhost:8080/employees/search?firstName=Subrahmanya&department=Dev
+
+
+

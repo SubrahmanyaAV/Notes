@@ -1,0 +1,41 @@
+CREATE TABLE IF NOT EXISTS `author` (
+  `authorname` varchar(25) NOT NULL,
+  `mailID` varchar(25) NOT NULL,
+  `ISBN` varchar(25) DEFAULT NULL,
+  FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`)
+)
+
+
+CREATE TABLE IF NOT EXISTS `book` (
+  `ISBN` varchar(25) NOT NULL,
+  `title` varchar(25) NOT NULL,
+  `category` varchar(25) NOT NULL,
+  `NoOfBooks` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ISBN`)
+)
+
+
+CREATE TABLE IF NOT EXISTS `bookissue` (
+  `issueID` int(11) NOT NULL AUTO_INCREMENT,
+  `usn` varchar(25) NOT NULL,
+  `issueDate` date DEFAULT NULL,
+  `returnDate` date DEFAULT NULL,
+  `ISBN` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`issueID`),
+  FOREIGN KEY (`usn`) REFERENCES `student` (`usn`),
+  FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`)
+)
+
+CREATE TABLE IF NOT EXISTS `student` (
+  `usn` varchar(25) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  PRIMARY KEY (`usn`)
+)
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `userName` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `phoneNo` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `role` varchar(100) NOT NULL
+) 

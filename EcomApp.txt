@@ -1,0 +1,217 @@
+openjdk  --> https://jdk.java.net/archive/  ==> 17 version
+
+MySQL --> https://www.mysql.com/ > Downloads > MySQL community Server 
+
+Spring tools 4 for Eclipse --> https://spring.io/tools
+
+___________________________________________________________________________________________________
+
+In MySQL workbench 8.0 ==>
+
+to delete all the values and reset the tables in db
+
+truncate table users_roles;
+
+i cannot truncate users foreign key violation So ==>
+
+set foreign_key_checks = 0;
+truncate table users;
+
+use the same commands for roles ==>
+
+set foreign_key_checks = 0;
+truncate table users;
+
+to import data from sql dump from MySQL workbench
+ server > data import > import from self-contained file > select the sql file > default target schema(ecomappdb) > select dump data only > start import
+
+___________________________________________________________________________________________________
+
+create 1. EcomappProject --> Root Project
+
+
+
+___________________________________________________________________________________________________
+
+create common project 2. EcomappCommon --> Module 1 (Shared library b/w backend and frontend)
+and add SQL > Spring JPA
+delete the main class(EcomappCommonApplication.class) and test package cause this is a common library and delete spring-boot-test dependency as i have no test package
+
+add modules in pom.xml in EcomappProject(root project)
+
+<modules>
+	<module>EcomappCommon</module>
+</modules>
+
+___________________________________________________________________________________________________
+
+Create 3. EcomappWebParent --> Module 2 (common dependencies between frontend and backend)
+delete the main class and test package not required
+add spring web and thymeleaf dependency and add module in EcomappProject pom.xml
+<modules>
+	<module>EcomappCommon</module>
+	<module>EcomappWebParent</module>
+</modules>
+
+EcomappWebParent > right click > properties > project nature > select java > remove > apply
+(because EcomappWebParent is just a root project for other two modules (2a and 2b ))
+
+<packaging>pom</packaging> add this in EcomappWebParent pom.xml after <version>
+
+__________________________________________________________________________________________________
+
+Create 4. EcomappBackEnd  --> Module 2a (jar) (Backend)
+
+copy and paste the groupId , artifact and version from EcomappWebParent(Parent) to EcomappBackEnd
+
+<groupId>com.ecomapp</groupId>
+<artifactId>EcomappWebParent</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+
+No need to add dependency as it inherits from the EcomappWebParent so delete the one in EcomappBackEnd
+
+add <module>EcomappBackEnd</module> in EcomappWebParent
+
+in application.properties add the below lines 
+
+server.port=8080
+server.servlet.context-path=/EcomappAdmin
+
+change the package name com.ecomapp to com.ecomapp.admin in EcomappBackEnd
+
+add the main controller class in com.ecomapp.admin
+
+under src/main/resources create a new folder --> templates(to store HTML files) install thymeleaf in eclipse marketplace
+
+create index.html inside templates folder and then run EcomappBackEnd application
+
+local > select EcomappBackEnd > start
+
+open chrome type localhost:8080/EcomappAdmin --> EcomappAdmin  is the contxt-path mentioned in application.properties
+
+___________________________________________________________________________________________________
+
+
+Create 5: EcomappFrontEnd --> Module 2b
+
+add <module>EcomappFrontEnd</module> in EcomappWebParent
+
+in application.properties add the below lines 
+
+server.port=80
+server.servlet.context-path=/EcomappAdmin
+
+change the package name com.ecomapp to com.ecomapp.admin in EcomappBackEnd
+
+add the main controller class in com.ecomapp.admin
+
+under src/main/resources create a new folder --> templates(to store HTML files) 
+
+create index.html inside templates folder and then run EcomappBackEnd application
+
+local > select EcomappBackEnd > start
+
+open chrome type localhost/Ecomapp -->port is 80 so no need to mention and EcomappAdmin  is the contxt-path mentioned in application.properties
+
+___________________________________________________________________________________________
+
+Clone Shopme project 
+
+> Choose a workspace > create a folder ShopmeReferenceProject > open git bash inside ShopmeReferenceProject folder > run the below commands
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject
+$ git clone --depth 1 --branch InitialSetup https://github.com/namhaminh/shopme.
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject
+$ cd
+.metadata/ shopme/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject
+$ cd shopme/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme ((InitialSetup))
+$ mvn install
+
+After BUILD SUCCESS
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme ((InitialSetup))
+$ ls
+ShopmeCommon/  ShopmeWebParent/  pom.xml
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme ((InitialSetup))
+$ cd Shopme
+ShopmeCommon/    ShopmeWebParent/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme ((InitialSetup))
+$ cd ShopmeWebParent/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent ((InitialSetup))
+$ ls
+ShopmeBackEnd/  ShopmeFrontEnd/  mvnw*  mvnw.cmd  pom.xml  src/
+
+To run ShopmeBackEnd -------------------
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent ((InitialSetup))
+$ cd ShopmeBackEnd/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeBackEnd ((InitialSetup))
+$ ls
+mvnw*  mvnw.cmd  pom.xml  src/  target/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeBackEnd ((InitialSetup))
+$ cd target/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeBackEnd/target ((InitialSetup))
+$ ls
+ShopmeBackEnd-0.0.1-SNAPSHOT.jar           classes/            maven-archiver/
+ShopmeBackEnd-0.0.1-SNAPSHOT.jar.original  generated-sources/  maven-status/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeBackEnd/target ((InitialSetup))
+$ java -jar ShopmeBackEnd-0.0.1-SNAPSHOT.jar
+ShopmeBackEnd-0.0.1-SNAPSHOT.jar
+ShopmeBackEnd-0.0.1-SNAPSHOT.jar.original
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeBackEnd/target ((InitialSetup))
+$ java -jar ShopmeBackEnd-0.0.1-SNAPSHOT.jar
+
+Open Chrome > localhost:8080/ShopmeAdmin
+
+-----------------------------------------------
+
+To run ShopmeFrontEnd 
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebPa
+$ cd ..
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeBackEnd ((InitialSetup))
+$ cd ..
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent ((InitialSetup))
+$ ls
+ShopmeBackEnd/  ShopmeFrontEnd/  mvnw*  mvnw.cmd  pom.xml  src/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent ((InitialSetup))
+$ cd ShopmeFrontEnd/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeFrontEnd ((InitialSetup))
+$ cd target/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeFrontEnd/target ((InitialSetup))
+$ ls
+ShopmeFrontEnd-0.0.1-SNAPSHOT.jar           classes/            maven-archiver/
+ShopmeFrontEnd-0.0.1-SNAPSHOT.jar.original  generated-sources/  maven-status/
+
+subra@Subrahmanya-AV-Mowdhgalya MINGW64 ~/workspace-ShopmeReferenceProject/shopme/ShopmeWebParent/ShopmeFrontEnd/target ((InitialSetup))
+$ java -jar ShopmeFrontEnd-0.0.1-SNAPSHOT.jar
+
+open chrome > localhost/Shopme  --> no need to add port because port no is 80 not 8080
+
+
+
+__________________________________________________________________________________________________________
+
+Font Awesome
+
+https://fontawesome.com/download > download for web > extract
+
+add webfonts folder inside resources static folder and css all.css file inside fontawesome folder(create a fontawesome folder inside static folder)

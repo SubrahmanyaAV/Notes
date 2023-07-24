@@ -1,0 +1,23 @@
+SQL - Structured query language ==> RDBMS - Relational database management system ==> Rows and columns
+
+
+constraint - specific condition
+
+SQL types 
+
+1. DDL(Data Definition Language) - create,Drop,Alter,Truncate
+2. DML(Data Manipulation Language) - Insert,upddate,delete 
+3.
+4.
+5.
+
+JOIN - by default inner join
+Types ==> INNER JOIN, OUTER JOIN
+3.LEFT JOIN
+4.RIGHT JOIN
+
+LIKE('%') - Specific 
+
+triggers - special procedure
+
+create database 
